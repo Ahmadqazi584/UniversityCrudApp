@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="department" class="com.jdbc.spring.model.Department">
+        <property name="id" value="101"/>
+        <property name="departmentname" value="Computer Science"/>
+        <property name="departmentcode" value="CSC-114"/>
+    </bean>
+    
+    <!-- Define JDBC DataSource bean -->
+    <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/dbs11786303"/>
+        <property name="username" value="root"/>
+        <property name="password" value="javatesting"/>
+    </bean>
+
+    <!-- Define JdbcTemplate bean -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="ds"/>
+    </bean>
+    
+    <bean id="departmentDao" class="com.jdbc.spring.daoimpl.DepartmentDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    
+	<bean id="studentDao" class="com.jdbc.spring.daoimpl.StudentDaoImpl">
+	    <property name="jdbcTemplate" ref="jdbcTemplate" />
+	    <property name="myCustomDepartmentDao" ref="departmentDao" />
+	</bean>
+
+    
+
+
+</beans>
